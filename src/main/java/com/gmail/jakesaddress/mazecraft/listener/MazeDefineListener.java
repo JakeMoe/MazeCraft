@@ -36,13 +36,13 @@ public class MazeDefineListener {
     UUID uuid = player.getUniqueId();
 
     if (Main.isSettingEnd(uuid)) {
-      Location<World> startLoc = Main.getStartLoc(uuid);
+      Location<World> startLoc = Main.getStartLoc(uuid).get();
       Location<World> endLoc = event.getTargetBlock().getLocation().get();
       if (Math.abs(startLoc.getX() - endLoc.getX()) >= 6 &&
           Math.abs(startLoc.getZ() - endLoc.getZ()) >= 6) {
         Main.setEndLoc(uuid, endLoc);
         Main.setSettingEnd(uuid, false);
-        player.sendMessage(Text.of("Corners set to " + Main.getStartLoc(uuid).getBlockPosition().toString() + " and " + Main.getEndLoc(uuid).getBlockPosition().toString()));
+        player.sendMessage(Text.of("Corners set to " + Main.getStartLoc(uuid).get().getBlockPosition().toString() + " and " + Main.getEndLoc(uuid).get().getBlockPosition().toString()));
       } else {
         player.sendMessage(Text.of("Corners must be at least 7 blocks apart; cancelling."));
         Main.setSettingEnd(uuid, false);

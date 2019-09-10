@@ -17,7 +17,7 @@
 
 package com.gmail.jakesaddress.maze;
 
-class MazeCell {
+public class MazeCell {
 
   private boolean eastWall;
   private boolean northWall;
@@ -45,19 +45,19 @@ class MazeCell {
     return row;
   }
 
-  boolean hasEastWall() {
+  public boolean hasEastWall() {
     return eastWall;
   }
 
-  boolean hasNorthWall() {
+  public boolean hasNorthWall() {
     return northWall;
   }
 
-  boolean hasSouthWall() {
+  public boolean hasSouthWall() {
     return southWall;
   }
 
-  boolean hasWestWall() {
+  public boolean hasWestWall() {
     return westWall;
   }
 

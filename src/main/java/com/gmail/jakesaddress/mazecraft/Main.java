@@ -37,11 +37,12 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
 
 @Plugin(id = "mazecraft",
   name = "MazeCraft",
-  version = "0.1",
+  version = "0.2",
   description = "A maze generation plugin",
   authors = "Cluracan")
 public class Main {
@@ -128,12 +129,12 @@ public class Main {
     return logger;
   }
 
-  public static Location<World> getEndLoc(UUID uuid) {
-    return endLoc.get(uuid);
+  public static Optional<Location<World>> getEndLoc(UUID uuid) {
+    return Optional.ofNullable(endLoc.get(uuid));
   }
 
-  public static Location<World> getStartLoc(UUID uuid) {
-    return startLoc.get(uuid);
+  public static Optional<Location<World>> getStartLoc(UUID uuid) {
+    return Optional.ofNullable(startLoc.get(uuid));
   }
 
   public static boolean isSettingEnd(UUID uuid) {

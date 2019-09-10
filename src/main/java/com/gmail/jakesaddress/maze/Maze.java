@@ -55,6 +55,10 @@ public class Maze {
     this.rows = rows;
   }
 
+  public MazeCell getCell(int col, int row) {
+    return cells[col][row];
+  }
+
   public MazeCell[][] getCells() {
     return cells;
   }
