@@ -54,8 +54,6 @@ public class MazeGenerateCommand implements CommandExecutor {
 
       World world = startLoc.getExtent();
 
-      player.sendMessage(Text.of("World is " + world.getName()));
-
       int startX = Math.min(startLoc.getBlockX(), endLoc.getBlockX());
       int endX = Math.max(startLoc.getBlockX(), endLoc.getBlockX());
       int startY = Math.min(startLoc.getBlockY(), endLoc.getBlockY());
@@ -70,44 +68,59 @@ public class MazeGenerateCommand implements CommandExecutor {
       if (sizeX % 2 != 1) { sizeX--; }
       if (sizeZ % 2 != 1) { sizeZ--; }
 
+      player.sendMessage(Text.of("Generating maze at " + startX + "," + startY + "," + startZ + " of size " + sizeX + "," + sizeY + "," + sizeZ));
+
       Maze maze = new Maze((sizeX - 1) / 2, (sizeZ - 1) / 2);
 
-      for (int row = 0; row < maze.getRows(); row++) {
-        for (int col = 0; col < maze.getCols(); col++) {
+      player.sendMessage(Text.of("Maze is " + maze.getRows() + " by " + maze.getCols()));
 
-          Location<World> cell = new Location<>(world, startX + (2 * col) + 1, startY, startZ + (2 * row) + 1);
-          MazeCell mazeCell = maze.getCell(col, row);
-          cell.setBlockType(BlockTypes.AIR);
-
-          cell.getBlockRelative(Direction.NORTHEAST).setBlockType(BlockTypes.DIRT);
-          cell.getBlockRelative(Direction.SOUTHEAST).setBlockType(BlockTypes.DIRT);
-          cell.getBlockRelative(Direction.SOUTHWEST).setBlockType(BlockTypes.DIRT);
-          cell.getBlockRelative(Direction.NORTHWEST).setBlockType(BlockTypes.DIRT);
-
-          if (mazeCell.hasNorthWall()) {
-            cell.getBlockRelative(Direction.NORTH).setBlockType(BlockTypes.DIRT);
-          } else {
-            cell.getBlockRelative(Direction.NORTH).setBlockType(BlockTypes.AIR);
+      for (int height = 0; height < sizeY; height++) {
+        if (height == 0) {
+          for (int x = startX; x <= endX; x++) {
+            for (int z = startZ; z <= endZ; z++) {
+              world.setBlockType(x, startY, z, BlockTypes.DIRT);
+            }
           }
+        } else {
+          for (int row = 0; row < maze.getRows(); row++) {
+            for (int col = 0; col < maze.getCols(); col++) {
 
-          if (mazeCell.hasEastWall()) {
-            cell.getBlockRelative(Direction.EAST).setBlockType(BlockTypes.DIRT);
-          } else {
-            cell.getBlockRelative(Direction.EAST).setBlockType(BlockTypes.AIR);
+              Location<World> cell = new Location<>(world, startX + (2 * col) + 1, startY + height, startZ + (2 * row) + 1);
+              MazeCell mazeCell = maze.getCell(col, row);
+
+              cell.setBlockType(BlockTypes.AIR);
+
+              cell.getBlockRelative(Direction.NORTHEAST).setBlockType(BlockTypes.DIRT);
+              cell.getBlockRelative(Direction.SOUTHEAST).setBlockType(BlockTypes.DIRT);
+              cell.getBlockRelative(Direction.SOUTHWEST).setBlockType(BlockTypes.DIRT);
+              cell.getBlockRelative(Direction.NORTHWEST).setBlockType(BlockTypes.DIRT);
+
+              if (mazeCell.hasNorthWall()) {
+                cell.getBlockRelative(Direction.NORTH).setBlockType(BlockTypes.DIRT);
+              } else {
+                cell.getBlockRelative(Direction.NORTH).setBlockType(BlockTypes.AIR);
+              }
+
+              if (mazeCell.hasEastWall()) {
+                cell.getBlockRelative(Direction.EAST).setBlockType(BlockTypes.DIRT);
+              } else {
+                cell.getBlockRelative(Direction.EAST).setBlockType(BlockTypes.AIR);
+              }
+
+              if (mazeCell.hasSouthWall()) {
+                cell.getBlockRelative(Direction.SOUTH).setBlockType(BlockTypes.DIRT);
+              } else {
+                cell.getBlockRelative(Direction.SOUTH).setBlockType(BlockTypes.AIR);
+              }
+
+              if (mazeCell.hasWestWall()) {
+                cell.getBlockRelative(Direction.WEST).setBlockType(BlockTypes.DIRT);
+              } else {
+                cell.getBlockRelative(Direction.WEST).setBlockType(BlockTypes.AIR);
+              }
+
+            }
           }
-
-          if (mazeCell.hasSouthWall()) {
-            cell.getBlockRelative(Direction.SOUTH).setBlockType(BlockTypes.DIRT);
-          } else {
-            cell.getBlockRelative(Direction.SOUTH).setBlockType(BlockTypes.AIR);
-          }
-
-          if (mazeCell.hasWestWall()) {
-            cell.getBlockRelative(Direction.WEST).setBlockType(BlockTypes.DIRT);
-          } else {
-            cell.getBlockRelative(Direction.WEST).setBlockType(BlockTypes.AIR);
-          }
-
         }
       }
 

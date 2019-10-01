@@ -42,7 +42,7 @@ import java.util.UUID;
 
 @Plugin(id = "mazecraft",
   name = "MazeCraft",
-  version = "0.2",
+  version = "0.3",
   description = "A maze generation plugin",
   authors = "Cluracan")
 public class Main {
@@ -73,7 +73,7 @@ public class Main {
 
   @Listener
   public void onGamePreInitialization(GamePreInitializationEvent event) {
-    logger.info("MazeCraft v0.1 has started");
+    logger.info("MazeCraft v0.3 has started");
   }
 
   @Listener
